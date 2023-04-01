@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,8 +14,11 @@ use App\Http\Controllers\AuthController;
 */
 
 
-Route::get('/login', [AuthController::class, 'index'])->name('home');
-Route::post('/post-login', [AuthController::class, 'postLogin'])->name('login.post'); 
-Route::get('/registration', [AuthController::class, 'registration'])->name('register');
-Route::get('/dashboard', [AuthController::class, 'dashboard']); 
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/post-login', [AuthController::class, 'postLogin'])->name('login.post');
+
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/dashboard', [AuthController::class, 'dashboard']);
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+});
